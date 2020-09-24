@@ -2,28 +2,68 @@
 #include <stdio.h>
 #include <vector>
 
+#define HOLE -1
+
 using namespace std;
 
-int firstDuplicate(std::vector<int> const & arr) {
-	int length(arr.size());
-	std::vector<int> hashArr(length, -1); // initialize hashArr to be all -1's.
+int putBack(vector<int> & arr, int const val) {
+	int & src(arr[val-1]);
+	int popped(src);
+	
+	src = val;
+	return popped;
+}
 
-	for (int i(0); i<length; ++i) {
-		int currVal(arr[i]);
-		int firstSeen(hashArr[currVal-1]);
+void findIndex(vector<int> const & arr, int const length, int & index) {
+	for (; index<length; ++index) if (arr[index] != index+1) return;
+	return;
+}
 
-		if (firstSeen != -1) return currVal;
-		else hashArr[currVal-1] = i;
+int firstDuplicate(vector<int> & arr) {
+	int const length(arr.size());
+	int index(0);
+	findIndex(arr,length,index);
+
+	if (index >= length) return -1;
+
+	int popped(arr[index]);
+	int prevPopped(popped);
+	arr[index] = HOLE;
+
+	while (index < length) {
+		prevPopped = popped;
+		popped = putBack(arr,prevPopped);
+
+		if (popped == HOLE) {
+			findIndex(arr,length,index);
+			if (index < length) {
+				popped = arr[index];
+				arr[index] = HOLE;
+			}
+		} else if (prevPopped == popped) return popped;
 	}
 
 	return -1;
 }
 
+// int firstDuplicate(vector<int> & arr) {
+// 	int length(arr.size());
+// 	int copy(-1);
+	
+// 	for (int i(0); i<length; ++i) {
+// 		copy = arr[i];
+// 		result = popReplace(arr,i);
+// 		if (copy == result) return result;
+// 		else if (result != 0) putBack(arr,result);
+// 	}
+// 	return -1;
+// }
+
 int main() {
-	vector<int> const test0({1,2,3,4});
-	vector<int> const test1({1,2,1,3,5});
-	vector<int> const test2({});
-	vector<int> const test3({1,2,3,4,5,4,5});
+	vector<int> test0({1,2});
+	vector<int> test1({1,2,1,3,5});
+	vector<int> test2({});
+	vector<int> test3({5,5,5,5,5,5,5,5});
 
 	int result0(firstDuplicate(test0));
 	int result1(firstDuplicate(test1));
