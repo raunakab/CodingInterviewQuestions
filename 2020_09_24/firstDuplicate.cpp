@@ -12,7 +12,7 @@ int firstDuplicate(std::vector<int> const & arr) {
 		int currVal(arr[i]);
 		int firstSeen(hashArr[currVal-1]);
 
-		if (firstSeen != -1) return i;
+		if (firstSeen != -1) return currVal;
 		else hashArr[currVal-1] = i;
 	}
 
