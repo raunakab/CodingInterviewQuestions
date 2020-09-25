@@ -64,16 +64,19 @@ int main() {
 	vector<int> test1({1,2,1,3,5});
 	vector<int> test2({});
 	vector<int> test3({5,5,5,5,5,5,5,5});
+	vector<int> test4({1,5,2,3,2});
 
 	int result0(firstDuplicate(test0));
 	int result1(firstDuplicate(test1));
 	int result2(firstDuplicate(test2));
 	int result3(firstDuplicate(test3));
+	int result4(firstDuplicate(test4));
 
 	printf("Result 0: %i\n",result0);
 	printf("Result 1: %i\n",result1);
 	printf("Result 2: %i\n",result2);
 	printf("Result 3: %i\n",result3);
+	printf("Result 4: %i\n",result4);
 
 	return 0;
 }
